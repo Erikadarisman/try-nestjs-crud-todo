@@ -1,15 +1,15 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+// item.entity.ts
+import { BaseEntity } from 'src/common/base.entity';
+import { Entity, Column } from 'typeorm';
 
-export abstract class Todo {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+@Entity({ name: 'todo' })
+export class Todo extends BaseEntity {
   @Column({ type: 'varchar', length: 300 })
   title: string;
 
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
+
   @Column({ type: 'text' })
   description: string;
-
-  @Column({ type: 'boolean', default: false })
-  isDone: boolean;
 }
