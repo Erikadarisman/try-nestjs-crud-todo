@@ -16,8 +16,8 @@ export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
   @Post()
-  create(@Body() createTodoDto: CreateTodoDto) {
-    return this.todosService.create(createTodoDto);
+  async create(@Body() createTodoDto: CreateTodoDto): Promise<CreateTodoDto> {
+    return this.todosService.create(CreateTodoDto.from(createTodoDto));
   }
 
   @Get()

@@ -12,7 +12,11 @@ export class TodosService {
   ) {}
 
   async create(createTodoDto: CreateTodoDto): Promise<CreateTodoDto> {
-    return await this.repo.save(createTodoDto);
+    console.log(createTodoDto);
+
+    return this.repo
+      .save(createTodoDto.toEntity())
+      .then((e) => CreateTodoDto.fromEntity(e));
   }
 
   async findAll() {
