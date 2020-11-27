@@ -20,7 +20,9 @@ export class TodosService {
   }
 
   async findAll() {
-    return await this.repo.find();
+    return await this.repo
+      .find()
+      .then((items) => items.map((e) => CreateTodoDto.fromEntity(e)));
   }
 
   findOne(id: number) {

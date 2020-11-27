@@ -3,6 +3,9 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateTodoDto implements Readonly<CreateTodoDto> {
   @ApiPropertyOptional()
+  id: BigInt;
+
+  @ApiPropertyOptional()
   title: string;
 
   @ApiPropertyOptional()
@@ -13,6 +16,7 @@ export class CreateTodoDto implements Readonly<CreateTodoDto> {
 
   public static from(dto: Partial<CreateTodoDto>) {
     const it = new CreateTodoDto();
+    it.id = dto.id;
     it.title = dto.title;
     it.description = dto.description;
     it.isDone = dto.isDone;
@@ -21,6 +25,7 @@ export class CreateTodoDto implements Readonly<CreateTodoDto> {
 
   public static fromEntity(entity: Todo) {
     return this.from({
+      id: entity.id,
       title: entity.title,
       description: entity.description,
       isDone: entity.isDone,
