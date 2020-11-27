@@ -2,7 +2,6 @@ import { Todo } from '../entities/todo.entity';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateTodoDto implements Readonly<CreateTodoDto> {
-  @ApiPropertyOptional()
   id: BigInt;
 
   @ApiPropertyOptional()

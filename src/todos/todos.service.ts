@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -12,25 +12,28 @@ export class TodosService {
   ) {}
 
   async create(createTodoDto: CreateTodoDto): Promise<CreateTodoDto> {
-    console.log(createTodoDto);
-
     return this.repo
       .save(createTodoDto.toEntity())
       .then((e) => CreateTodoDto.fromEntity(e));
   }
 
-  async findAll() {
+  async findAll(): Promise<CreateTodoDto[]> {
     return await this.repo
       .find()
       .then((items) => items.map((e) => CreateTodoDto.fromEntity(e)));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`;
+  async findOne(id: number): Promise<CreateTodoDto> {
+    const todo = await this.repo.findOne(id);
+    if (todo) return CreateTodoDto.fromEntity(todo);
+    else throw new HttpException(`Id ${id} Not Found`, HttpStatus.NOT_FOUND);
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  async update(id: number, updateTodoDto: UpdateTodoDto) {
+    const toUpdate = await this.repo.findOne(id);
+    const updated = Object.assign(toUpdate, updateTodoDto);
+    const todo = await this.repo.save(updated);
+    return CreateTodoDto.fromEntity(todo);
   }
 
   remove(id: number) {
