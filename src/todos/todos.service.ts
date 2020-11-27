@@ -29,14 +29,17 @@ export class TodosService {
     else throw new HttpException(`Id ${id} Not Found`, HttpStatus.NOT_FOUND);
   }
 
-  async update(id: number, updateTodoDto: UpdateTodoDto) {
+  async update(
+    id: number,
+    updateTodoDto: UpdateTodoDto,
+  ): Promise<CreateTodoDto> {
     const toUpdate = await this.repo.findOne(id);
     const updated = Object.assign(toUpdate, updateTodoDto);
     const todo = await this.repo.save(updated);
     return CreateTodoDto.fromEntity(todo);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todo`;
+  async remove(id: number) {
+    return await this.repo.delete(id);
   }
 }
