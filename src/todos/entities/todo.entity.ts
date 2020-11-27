@@ -8,7 +8,7 @@ export class Todo extends BaseEntity {
   title: string;
 
   @Column({ type: 'boolean', default: true })
-  isActive: boolean;
+  isDone: boolean;
 
   @Column({ type: 'text' })
   description: string;
